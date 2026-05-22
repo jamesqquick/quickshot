@@ -1,0 +1,19 @@
+{
+  "name": "quickshot",
+  "compatibility_date": "2025-05-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  },
+  "browser": {
+    "binding": "BROWSER"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "RATE_LIMIT_MAX": "30",
+    "RATE_LIMIT_WINDOW_SECONDS": "60"
+  }
+}

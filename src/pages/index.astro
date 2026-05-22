@@ -1,0 +1,242 @@
+---
+export const prerender = false;
+
+import "../styles/global.css";
+import {
+  DEFAULT_OPTIONS,
+  THEMES,
+  LANGUAGES,
+  FONTS,
+} from "../lib/options.js";
+
+
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QuickShot - Code Screenshots</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fira+Code:wght@400;500;700&family=Geist+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <h1>QuickShot</h1>
+        <div class="header-actions">
+          <!-- Settings gear button -->
+          <div class="settings-wrap">
+            <button
+              class="btn btn-secondary settings-btn"
+              id="btn-settings"
+              title="Settings"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+            </button>
+
+            <!-- Settings dropdown -->
+            <div class="settings-dropdown" id="settings-dropdown" role="menu">
+              <!-- File -->
+              <div class="section">
+                <div class="section-title">File</div>
+                <div class="field-row">
+                  <div class="field">
+                    <label for="opt-filename">Filename</label>
+                    <input
+                      type="text"
+                      id="opt-filename"
+                      value={DEFAULT_OPTIONS.filename}
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="opt-language">Language</label>
+                    <select id="opt-language">
+                      {LANGUAGES.map((lang) => (
+                        <option
+                          value={lang}
+                          selected={lang === DEFAULT_OPTIONS.language}
+                        >
+                          {lang}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Appearance -->
+              <div class="section">
+                <div class="section-title">Appearance</div>
+
+                <div class="field-row">
+                  <div class="field">
+                    <label for="opt-theme">Theme</label>
+                    <select id="opt-theme">
+                      {THEMES.map((t) => (
+                        <option value={t} selected={t === DEFAULT_OPTIONS.theme}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="opt-font">Font</label>
+                    <select id="opt-font">
+                      {FONTS.map((f) => (
+                        <option
+                          value={f}
+                          selected={f === DEFAULT_OPTIONS.fontFamily}
+                        >
+                          {f}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Font Size</label>
+                  <div class="range-row">
+                    <input
+                      type="range"
+                      id="opt-fontSize"
+                      min="8"
+                      max="36"
+                      value={String(DEFAULT_OPTIONS.fontSize)}
+                    />
+                    <span class="range-value" id="fontSize-val"
+                      >{DEFAULT_OPTIONS.fontSize}px</span
+                    >
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Padding</label>
+                  <div class="range-row">
+                    <input
+                      type="range"
+                      id="opt-padding"
+                      min="8"
+                      max="128"
+                      value={String(DEFAULT_OPTIONS.padding)}
+                    />
+                    <span class="range-value" id="padding-val"
+                      >{DEFAULT_OPTIONS.padding}px</span
+                    >
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Corner Radius</label>
+                  <div class="range-row">
+                    <input
+                      type="range"
+                      id="opt-cornerRadius"
+                      min="0"
+                      max="32"
+                      value={String(DEFAULT_OPTIONS.cornerRadius)}
+                    />
+                    <span class="range-value" id="cornerRadius-val"
+                      >{DEFAULT_OPTIONS.cornerRadius}px</span
+                    >
+                  </div>
+                </div>
+
+                <div class="toggle-row">
+                  <span class="toggle-label">Window Chrome</span>
+                  <label class="toggle">
+                    <input
+                      type="checkbox"
+                      id="opt-showChrome"
+                      checked={DEFAULT_OPTIONS.showChrome}
+                    />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <span class="toggle-label">Line Numbers</span>
+                  <label class="toggle">
+                    <input
+                      type="checkbox"
+                      id="opt-showLineNumbers"
+                      checked={DEFAULT_OPTIONS.showLineNumbers}
+                    />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <span class="toggle-label">Shadow</span>
+                  <label class="toggle">
+                    <input
+                      type="checkbox"
+                      id="opt-shadow"
+                      checked={DEFAULT_OPTIONS.shadow}
+                    />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Line Range -->
+              <div class="section">
+                <div class="section-title">Line Range (optional)</div>
+                <div class="field-row">
+                  <div class="field">
+                    <label for="opt-lineStart">Start</label>
+                    <input type="number" id="opt-lineStart" min="1" placeholder="1" />
+                  </div>
+                  <div class="field">
+                    <label for="opt-lineEnd">End</label>
+                    <input type="number" id="opt-lineEnd" min="1" placeholder="All" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-secondary" id="btn-copy" title="Copy PNG to clipboard">
+            Copy
+          </button>
+          <button class="btn btn-primary" id="btn-download">
+            Download PNG
+          </button>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="preview-pane">
+          <div id="preview-container">
+            <div class="code-card" id="code-card">
+              <div class="chrome" id="card-chrome">
+                <div class="dots">
+                  <span class="dot" style="background:#ff5f57"></span>
+                  <span class="dot" style="background:#febc2e"></span>
+                  <span class="dot" style="background:#28c840"></span>
+                </div>
+                <span class="filename" id="card-filename"></span>
+              </div>
+              <div id="editor"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      import { initApp } from "../client/app.ts";
+      initApp();
+    </script>
+  </body>
+</html>

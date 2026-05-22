@@ -1,0 +1,140 @@
+{
+  "name": "cf-brand-light",
+  "displayName": "Cloudflare Brand Light",
+  "type": "light",
+  "colors": {
+    "editor.background": "#fffbf5",
+    "editor.foreground": "#521000",
+    "editor.selectionBackground": "#ff480020",
+    "editor.lineHighlightBackground": "#fef7ed",
+    "editorLineNumber.foreground": "#c4a083",
+    "editorLineNumber.activeForeground": "#521000"
+  },
+  "tokenColors": [
+    {
+      "name": "Comments",
+      "scope": ["comment", "punctuation.definition.comment"],
+      "settings": { "foreground": "#b8946e", "fontStyle": "italic" }
+    },
+    {
+      "name": "Keywords",
+      "scope": ["keyword", "storage.type", "storage.modifier"],
+      "settings": { "foreground": "#d43d00" }
+    },
+    {
+      "name": "Control keywords",
+      "scope": ["keyword.control", "keyword.operator.expression"],
+      "settings": { "foreground": "#c03500" }
+    },
+    {
+      "name": "Strings",
+      "scope": ["string", "string.quoted"],
+      "settings": { "foreground": "#b85c1a" }
+    },
+    {
+      "name": "Template literals",
+      "scope": ["string.template", "punctuation.definition.string.template"],
+      "settings": { "foreground": "#a65218" }
+    },
+    {
+      "name": "Numbers",
+      "scope": ["constant.numeric"],
+      "settings": { "foreground": "#9e5500" }
+    },
+    {
+      "name": "Constants & Booleans",
+      "scope": ["constant.language", "variable.language"],
+      "settings": { "foreground": "#c04000" }
+    },
+    {
+      "name": "Functions",
+      "scope": ["entity.name.function", "support.function"],
+      "settings": { "foreground": "#cc4e10" }
+    },
+    {
+      "name": "Function calls",
+      "scope": ["meta.function-call"],
+      "settings": { "foreground": "#cc4e10" }
+    },
+    {
+      "name": "Types & Classes",
+      "scope": ["entity.name.type", "entity.name.class", "support.type", "support.class"],
+      "settings": { "foreground": "#a84800" }
+    },
+    {
+      "name": "Interfaces & Type params",
+      "scope": ["entity.name.type.interface", "entity.name.type.parameter"],
+      "settings": { "foreground": "#b05200" }
+    },
+    {
+      "name": "Variables",
+      "scope": ["variable", "variable.other"],
+      "settings": { "foreground": "#521000" }
+    },
+    {
+      "name": "Properties",
+      "scope": ["variable.other.property", "support.variable.property"],
+      "settings": { "foreground": "#6e3012" }
+    },
+    {
+      "name": "Parameters",
+      "scope": ["variable.parameter"],
+      "settings": { "foreground": "#5c2008" }
+    },
+    {
+      "name": "Operators",
+      "scope": ["keyword.operator", "punctuation.accessor"],
+      "settings": { "foreground": "#cc4400" }
+    },
+    {
+      "name": "Punctuation",
+      "scope": ["punctuation", "meta.brace"],
+      "settings": { "foreground": "#a08060" }
+    },
+    {
+      "name": "Tags (HTML/JSX)",
+      "scope": ["entity.name.tag", "punctuation.definition.tag"],
+      "settings": { "foreground": "#d43d00" }
+    },
+    {
+      "name": "Attributes",
+      "scope": ["entity.other.attribute-name"],
+      "settings": { "foreground": "#b85c1a" }
+    },
+    {
+      "name": "Decorators",
+      "scope": ["meta.decorator", "punctuation.decorator"],
+      "settings": { "foreground": "#c04000" }
+    },
+    {
+      "name": "Regex",
+      "scope": ["string.regexp"],
+      "settings": { "foreground": "#a65218" }
+    },
+    {
+      "name": "Escape characters",
+      "scope": ["constant.character.escape"],
+      "settings": { "foreground": "#cc4400" }
+    },
+    {
+      "name": "Import/Export",
+      "scope": ["keyword.control.import", "keyword.control.export", "keyword.control.from"],
+      "settings": { "foreground": "#d43d00" }
+    },
+    {
+      "name": "JSON keys",
+      "scope": ["support.type.property-name.json"],
+      "settings": { "foreground": "#cc4e10" }
+    },
+    {
+      "name": "CSS properties",
+      "scope": ["support.type.property-name.css"],
+      "settings": { "foreground": "#b85c1a" }
+    },
+    {
+      "name": "CSS values",
+      "scope": ["support.constant.property-value.css"],
+      "settings": { "foreground": "#9e5500" }
+    }
+  ]
+}
