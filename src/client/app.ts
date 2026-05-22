@@ -10,6 +10,7 @@ import { rust } from "@codemirror/lang-rust";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { tags as t } from "@lezer/highlight";
 import { createHighlighter } from "shiki";
+import { toBlob } from "html-to-image";
 import {
   BUILTIN_THEMES,
   LANGUAGES,
@@ -462,30 +463,23 @@ export async function initApp() {
   });
 
   // --- Download ---
-  let downloading = false;
+  let capturing = false;
 
   $download.addEventListener("click", async () => {
-    if (downloading) return;
-    downloading = true;
+    if (capturing) return;
+    capturing = true;
     const origText = $download.textContent;
     $download.innerHTML = '<span class="spinner"></span> Rendering...';
     ($download as HTMLButtonElement).disabled = true;
 
     try {
       const opts = getOptions();
-      const res = await fetch("/api/render", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(opts),
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: "Download failed" }));
-        showToast((err as any).error ?? "Download failed", "error");
+      const blob = await toBlob($card, { pixelRatio: 2 });
+      if (!blob) {
+        showToast("Download failed", "error");
         return;
       }
 
-      const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -503,7 +497,7 @@ export async function initApp() {
       showToast("Download failed. Check console.", "error");
       console.error(err);
     } finally {
-      downloading = false;
+      capturing = false;
       $download.textContent = origText;
       ($download as HTMLButtonElement).disabled = false;
     }
@@ -511,26 +505,18 @@ export async function initApp() {
 
   // --- Copy to clipboard ---
   $copy.addEventListener("click", async () => {
-    if (downloading) return;
-    downloading = true;
+    if (capturing) return;
+    capturing = true;
     const origText = $copy.textContent;
     $copy.innerHTML = '<span class="spinner"></span>';
 
     try {
-      const opts = getOptions();
-      const res = await fetch("/api/render", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(opts),
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: "Copy failed" }));
-        showToast((err as any).error ?? "Copy failed", "error");
+      const blob = await toBlob($card, { pixelRatio: 2 });
+      if (!blob) {
+        showToast("Copy failed", "error");
         return;
       }
 
-      const blob = await res.blob();
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": blob }),
       ]);
@@ -540,7 +526,7 @@ export async function initApp() {
       showToast("Copy failed. Check console.", "error");
       console.error(err);
     } finally {
-      downloading = false;
+      capturing = false;
       $copy.textContent = origText;
     }
   });
