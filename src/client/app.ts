@@ -191,7 +191,7 @@ function buildEditorTheme(resolved: ResolvedTheme, fontFamily: string, fontSize:
         {
           backgroundColor: `${resolved.selection} !important`,
         },
-      ".cm-activeLine": {
+      "&.cm-focused .cm-activeLine": {
         backgroundColor: resolved.lineHighlight,
       },
       ".cm-gutters": {
@@ -199,7 +199,7 @@ function buildEditorTheme(resolved: ResolvedTheme, fontFamily: string, fontSize:
         color: resolved.gutterFg,
         border: "none",
       },
-      ".cm-activeLineGutter": {
+      "&.cm-focused .cm-activeLineGutter": {
         backgroundColor: resolved.lineHighlight,
       },
       ".cm-lineNumbers .cm-gutterElement": {
