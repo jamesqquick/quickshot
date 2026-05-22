@@ -191,6 +191,9 @@ function buildEditorTheme(resolved: ResolvedTheme, fontFamily: string, fontSize:
         {
           backgroundColor: `${resolved.selection} !important`,
         },
+      ".cm-activeLine": {
+        backgroundColor: "transparent",
+      },
       "&.cm-focused .cm-activeLine": {
         backgroundColor: resolved.lineHighlight,
       },
@@ -198,6 +201,9 @@ function buildEditorTheme(resolved: ResolvedTheme, fontFamily: string, fontSize:
         backgroundColor: resolved.gutterBg,
         color: resolved.gutterFg,
         border: "none",
+      },
+      ".cm-activeLineGutter": {
+        backgroundColor: "transparent",
       },
       "&.cm-focused .cm-activeLineGutter": {
         backgroundColor: resolved.lineHighlight,
