@@ -1,5 +1,5 @@
 import { EditorView, basicSetup } from "codemirror";
-import { EditorState, Compartment } from "@codemirror/state";
+import { EditorState, Compartment, EditorSelection } from "@codemirror/state";
 import { javascript } from "@codemirror/lang-javascript";
 import { html } from "@codemirror/lang-html";
 import { css } from "@codemirror/lang-css";
@@ -315,6 +315,12 @@ export async function initApp() {
     state: editorState,
     parent: document.getElementById("editor")!,
     root: document,
+  });
+
+  editorView.contentDOM.addEventListener("blur", () => {
+    editorView.dispatch({
+      selection: EditorSelection.cursor(editorView.state.selection.main.head),
+    });
   });
 
   // --- Card visual sync ---
