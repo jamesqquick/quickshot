@@ -427,3 +427,20 @@ input[type="range"] {
     width: auto;
   }
 }
+
+/* --- Render mode --- */
+/* When loaded with ?render=1 (headless Browser Run for the MCP), we hide the
+   UI chrome so #code-card screenshot captures only the card itself. */
+body.render-mode {
+  overflow: visible;
+}
+body.render-mode .header {
+  display: none;
+}
+body.render-mode .main {
+  padding: 0;
+}
+body.render-mode .preview-pane {
+  overflow: visible;
+  padding: 0;
+}

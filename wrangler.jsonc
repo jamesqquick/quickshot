@@ -1,10 +1,31 @@
 {
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "quickshot",
-  "compatibility_date": "2025-05-01",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-03-24",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist"
+  },
+  // Quick Actions require remote mode for local development (wrangler dev
+   // --remote). Deployed Workers run in real Cloudflare so remote=true is not
+   // needed in production. Add it locally if testing the MCP through wrangler
+   // dev, or use CLOUDFLARE_ACCOUNT_ID env var.
+  "browser": {
+    "binding": "BROWSER"
+  },
+  "r2_buckets": [
+    {
+      "binding": "SCREENSHOTS",
+      "bucket_name": "quickshot-screenshots"
+    }
+  ],
+  "vars": {
+    "PUBLIC_URL": "https://quickshot.examples.workers.dev",
+    // Set this to the bucket's public r2.dev URL (https://pub-<hash>.r2.dev)
+    // after enabling Public Development URL on the R2 bucket.
+    "SCREENSHOTS_PUBLIC_BASE": ""
   },
   "observability": {
     "enabled": true

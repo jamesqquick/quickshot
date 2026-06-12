@@ -8,3 +8,4 @@ dist/
 .env.*
 .dev.vars
 tmp/
+worker-configuration.d.ts

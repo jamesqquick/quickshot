@@ -21,6 +21,7 @@ import {
   type FontName,
 } from "../lib/options.js";
 import { CUSTOM_THEMES } from "../lib/shiki.js";
+import { decodeRenderOptions } from "../lib/renderUrl.js";
 
 // Language extensions map
 function getLangExtension(lang: string) {
@@ -282,6 +283,59 @@ export async function initApp() {
   ) as HTMLInputElement;
   const $lineEnd = document.getElementById("opt-lineEnd") as HTMLInputElement;
 
+  // --- Render mode (?render=1) ---
+  // When loaded by a headless browser (Browser Run) for screenshot capture,
+  // URL params override the default option values. The Worker that drives the
+  // headless browser navigates to this page with all RenderOptions encoded in
+  // the query string (see src/lib/renderUrl.ts).
+  const { isRenderMode, options: urlOptions } = decodeRenderOptions(
+    window.location.search,
+  );
+
+  let initialCode: string = DEFAULT_OPTIONS.code;
+  let initialLanguage: LanguageName = DEFAULT_OPTIONS.language;
+  let initialTheme: ThemeName = DEFAULT_OPTIONS.theme;
+  let initialFont: FontName = DEFAULT_OPTIONS.fontFamily;
+  let initialFontSize: number = DEFAULT_OPTIONS.fontSize;
+
+  if (isRenderMode) {
+    document.body.classList.add("render-mode");
+
+    if (urlOptions.code !== undefined) initialCode = urlOptions.code;
+    if (urlOptions.language !== undefined) {
+      initialLanguage = urlOptions.language;
+      $language.value = urlOptions.language;
+    }
+    if (urlOptions.theme !== undefined) {
+      initialTheme = urlOptions.theme;
+      $theme.value = urlOptions.theme;
+    }
+    if (urlOptions.fontFamily !== undefined) {
+      initialFont = urlOptions.fontFamily;
+      $font.value = urlOptions.fontFamily;
+    }
+    if (urlOptions.fontSize !== undefined) {
+      initialFontSize = urlOptions.fontSize;
+      $fontSize.value = String(urlOptions.fontSize);
+    }
+    if (urlOptions.filename !== undefined) $filename.value = urlOptions.filename;
+    if (urlOptions.padding !== undefined) $padding.value = String(urlOptions.padding);
+    if (urlOptions.cornerRadius !== undefined) {
+      $cornerRadius.value = String(urlOptions.cornerRadius);
+    }
+    if (urlOptions.showChrome !== undefined) $showChrome.checked = urlOptions.showChrome;
+    if (urlOptions.showLineNumbers !== undefined) {
+      $showLineNumbers.checked = urlOptions.showLineNumbers;
+    }
+    if (urlOptions.shadow !== undefined) $shadow.checked = urlOptions.shadow;
+    if (urlOptions.lineStart !== undefined) {
+      $lineStart.value = String(urlOptions.lineStart);
+    }
+    if (urlOptions.lineEnd !== undefined) {
+      $lineEnd.value = String(urlOptions.lineEnd);
+    }
+  }
+
   // --- CodeMirror compartments ---
   const langCompartment = new Compartment();
   const themeCompartment = new Compartment();
@@ -296,21 +350,21 @@ export async function initApp() {
   }
 
   const initialThemeObj = highlighter.getTheme(
-    DEFAULT_OPTIONS.theme,
+    initialTheme,
   ) as unknown as any;
   const initialResolved = resolveTheme(initialThemeObj);
 
   const editorState = EditorState.create({
-    doc: DEFAULT_OPTIONS.code,
+    doc: initialCode,
     extensions: [
       basicSetup,
       lineNumbersCompartment.of([]),
-      langCompartment.of(getLangExtension(DEFAULT_OPTIONS.language)),
+      langCompartment.of(getLangExtension(initialLanguage)),
       themeCompartment.of(
         buildEditorTheme(
           initialResolved,
-          DEFAULT_OPTIONS.fontFamily,
-          DEFAULT_OPTIONS.fontSize,
+          initialFont,
+          initialFontSize,
         ),
       ),
       highlightCompartment.of(syntaxHighlighting(buildHighlightStyle(initialResolved))),
@@ -596,4 +650,16 @@ export async function initApp() {
 
   // --- Initial render ---
   applyAll();
+
+  // --- Render-mode readiness signal ---
+  // Browser Run waits for [data-quickshot-ready="true"] before screenshotting.
+  // Set it after applyAll() completes one paint, so layout and Shiki theming
+  // are fully resolved.
+  if (isRenderMode) {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        $card.setAttribute("data-quickshot-ready", "true");
+      });
+    });
+  }
 }
