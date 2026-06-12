@@ -30,7 +30,12 @@ interface ScreenshotQuickActionOptions {
     waitUntil?: "load" | "domcontentloaded" | "networkidle0" | "networkidle2";
     timeout?: number;
   };
-  waitForSelector?: string;
+  waitForSelector?: {
+    selector: string;
+    timeout?: number;
+    visible?: true;
+    hidden?: true;
+  };
   screenshotOptions?: {
     type?: "png" | "jpeg" | "webp";
     omitBackground?: boolean;
@@ -68,7 +73,10 @@ export async function renderScreenshot(
     selector: "#code-card",
     viewport: { width: 1600, height: 1200, deviceScaleFactor: 2 },
     gotoOptions: { waitUntil: "networkidle0", timeout: 30_000 },
-    waitForSelector: '[data-quickshot-ready="true"]',
+    waitForSelector: {
+      selector: '[data-quickshot-ready="true"]',
+      timeout: 30_000,
+    },
     screenshotOptions: { type: "png", omitBackground: false },
   });
 
