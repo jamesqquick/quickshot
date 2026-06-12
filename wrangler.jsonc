@@ -2,6 +2,7 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "quickshot",
   "main": "./src/worker.ts",
+  "account_id": "e9bc21da719562a3e45d77de7dd042de",
   "compatibility_date": "2026-03-24",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
@@ -23,9 +24,8 @@
   ],
   "vars": {
     "PUBLIC_URL": "https://quickshot.examples.workers.dev",
-    // Set this to the bucket's public r2.dev URL (https://pub-<hash>.r2.dev)
-    // after enabling Public Development URL on the R2 bucket.
-    "SCREENSHOTS_PUBLIC_BASE": ""
+    // Public r2.dev URL for the quickshot-screenshots bucket.
+    "SCREENSHOTS_PUBLIC_BASE": "https://pub-00765cd1170f425da672c853a6270dbb.r2.dev"
   },
   "observability": {
     "enabled": true
