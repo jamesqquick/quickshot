@@ -444,3 +444,16 @@ body.render-mode .preview-pane {
   overflow: visible;
   padding: 0;
 }
+
+/* The card has rounded corners, so its corners are transparent within its
+   bounding box. Every backdrop behind it must be transparent too, otherwise
+   Browser Run composites it into the corners (previously producing black
+   wedges). screenshotOptions.omitBackground only suppresses the browser's
+   default background — explicit CSS backgrounds still paint. */
+html.render-mode,
+body.render-mode,
+body.render-mode .app,
+body.render-mode .main,
+body.render-mode .preview-pane {
+  background: transparent;
+}

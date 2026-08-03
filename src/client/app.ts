@@ -299,6 +299,8 @@ export async function initApp() {
   let initialFontSize: number = DEFAULT_OPTIONS.fontSize;
 
   if (isRenderMode) {
+    // Also on <html> so the `html, body` background rule can be overridden.
+    document.documentElement.classList.add("render-mode");
     document.body.classList.add("render-mode");
 
     if (urlOptions.code !== undefined) initialCode = urlOptions.code;
