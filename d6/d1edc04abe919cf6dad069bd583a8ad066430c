@@ -1,0 +1,23 @@
+src/client/app.ts
+  s_7a893e37772979::t_21d29d46623478 302-303
+src/mcp/render.ts
+  s_7a893e37772979::t_29fd6ad42c0d5c 80-84
+src/styles/global.css
+  s_7a893e37772979::t_b7e9983ef64c6e 447-459
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d6d1edc04abe919cf6dad069bd583a8ad066430c",
+  "prompts": {},
+  "sessions": {
+    "s_7a893e37772979": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_036b10f7cffextHkj1IUW8WkDX",
+        "model": "claude-opus-5"
+      },
+      "human_author": "James Quick <jquick@cloudflare.com>"
+    }
+  }
+}
