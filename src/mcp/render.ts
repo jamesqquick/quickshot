@@ -77,7 +77,11 @@ export async function renderScreenshot(
       selector: '[data-quickshot-ready="true"]',
       timeout: 30_000,
     },
-    screenshotOptions: { type: "png", omitBackground: false },
+    // omitBackground keeps the card's rounded corners transparent instead of
+    // compositing the page backdrop into them. Render mode also forces the
+    // html/body/preview-pane backgrounds transparent, since omitBackground only
+    // suppresses the browser's *default* background, not explicit CSS ones.
+    screenshotOptions: { type: "png", omitBackground: true },
   });
 
   if (!screenshotRes.ok) {
