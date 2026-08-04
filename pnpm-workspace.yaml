@@ -1,0 +1,18 @@
+# pnpm 11 blocks dependency build scripts until they are explicitly allowed.
+# Without this, `pnpm build` fails with ERR_PNPM_IGNORED_BUILDS.
+#
+# Allowed: these install the native binaries the build/deploy toolchain needs.
+#   esbuild  - astro, vite, wrangler
+#   workerd  - wrangler, miniflare
+#   sharp    - astro, miniflare
+#
+# Declined: transitive only, not used by build or deploy.
+#   @mongodb-js/zstd, node-liblzma - via just-bash
+#   core-js-pure                   - via @babel/runtime-corejs3 (funding notice)
+allowBuilds:
+  esbuild: true
+  workerd: true
+  sharp: true
+  '@mongodb-js/zstd': false
+  core-js-pure: false
+  node-liblzma: false

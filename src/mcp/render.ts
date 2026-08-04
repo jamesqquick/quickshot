@@ -70,7 +70,11 @@ export async function renderScreenshot(
   const browser = env.BROWSER as unknown as BrowserBindingWithQuickAction;
   const screenshotRes = await browser.quickAction("screenshot", {
     url: renderUrl.toString(),
-    selector: "#code-card",
+    // Capture the wrapper, not #code-card. box-shadow paints outside the card's
+    // own bounding box and element captures clip to that box, so targeting the
+    // card silently dropped the shadow. The wrapper carries transparent padding
+    // sized to contain it (only when the shadow option is on).
+    selector: "#preview-container",
     viewport: { width: 1600, height: 1200, deviceScaleFactor: 2 },
     gotoOptions: { waitUntil: "networkidle0", timeout: 30_000 },
     waitForSelector: {

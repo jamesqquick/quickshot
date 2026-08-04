@@ -246,6 +246,19 @@ function buildHighlightStyle(resolved: ResolvedTheme) {
   return HighlightStyle.define(specs as any);
 }
 
+// Drop shadow applied to the card when the `shadow` option is on.
+const CARD_SHADOW = "0 20px 68px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05)";
+
+// Transparent room the capture target reserves so CARD_SHADOW isn't clipped.
+//
+// A Gaussian shadow has an unbounded tail, so some cut is unavoidable on a
+// transparent backdrop; the goal is to push the residual below perception.
+// Skia blurs box-shadows with sigma = blur/2 = 34px, and alpha falls to ~2% of
+// peak at 2 sigma (~70px) from the shadow rect. The rect is offset 20px down,
+// so measuring from the *card* edge: ~50px above, ~90px below, ~70px each side.
+// Verified empirically: leaves alpha <= 3/255 at the frame edge.
+const SHADOW_CAPTURE_PADDING = "50px 70px 90px";
+
 export async function initApp() {
   // --- Shiki setup ---
   const highlighter = await createHighlighter({
@@ -255,6 +268,11 @@ export async function initApp() {
 
   // --- Elements ---
   const $card = document.getElementById("code-card") as HTMLElement;
+  // Capture target. The card's box-shadow paints OUTSIDE the card's own bounding
+  // box, and element-scoped captures clip to that box — so capturing $card drops
+  // the shadow entirely. We capture this wrapper instead and give it transparent
+  // padding sized to contain the shadow (see SHADOW_CAPTURE_PADDING).
+  const $captureTarget = document.getElementById("preview-container") as HTMLElement;
   const $chrome = document.getElementById("card-chrome") as HTMLElement;
   const $cardFilename = document.getElementById("card-filename") as HTMLElement;
   const $download = document.getElementById("btn-download")!;
@@ -393,9 +411,12 @@ export async function initApp() {
 
     $card.style.background = resolved.bg;
     $card.style.borderRadius = `${cornerRadius}px`;
-    $card.style.boxShadow = $shadow.checked
-      ? "0 20px 68px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05)"
-      : "none";
+    $card.style.boxShadow = $shadow.checked ? CARD_SHADOW : "none";
+
+    // Reserve transparent room around the card for the shadow, otherwise the
+    // capture clips it. No shadow means no padding, so we never pad the output
+    // with dead transparent pixels.
+    $captureTarget.style.padding = $shadow.checked ? SHADOW_CAPTURE_PADDING : "0";
 
     // Chrome
     $chrome.style.display = $showChrome.checked ? "flex" : "none";
@@ -542,7 +563,7 @@ export async function initApp() {
 
     try {
       const opts = getOptions();
-      const blob = await toBlob($card, { pixelRatio: 2 });
+      const blob = await toBlob($captureTarget, { pixelRatio: 2 });
       if (!blob) {
         showToast("Download failed", "error");
         return;
@@ -579,7 +600,7 @@ export async function initApp() {
     $copy.innerHTML = '<span class="spinner"></span>';
 
     try {
-      const blob = await toBlob($card, { pixelRatio: 2 });
+      const blob = await toBlob($captureTarget, { pixelRatio: 2 });
       if (!blob) {
         showToast("Copy failed", "error");
         return;

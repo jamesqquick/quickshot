@@ -84,18 +84,24 @@ html, body {
   background: repeating-conic-gradient(#1a1f26 0% 25%, #161b22 0% 50%) 0 0 / 20px 20px;
 }
 
-/* Preview container holds the editable code card */
+/* Preview container holds the editable code card. It is also the capture
+   target, so it must wrap the card tightly: line-height 0 here and
+   vertical-align on the card kill the inline baseline descender gap that would
+   otherwise add a few stray transparent pixels below the card in the output. */
 #preview-container {
   display: inline-block;
   max-width: 100%;
+  line-height: 0;
 }
 
 /* The editable code card */
 .code-card {
   display: inline-block;
+  vertical-align: top;
   overflow: hidden;
   min-width: 480px;
   max-width: 100%;
+  line-height: 1.5;
 }
 
 .code-card .chrome {
@@ -456,4 +462,11 @@ body.render-mode .app,
 body.render-mode .main,
 body.render-mode .preview-pane {
   background: transparent;
+}
+
+/* #preview-container is the capture target and carries the shadow padding.
+   Drop the max-width so that padding can never squeeze the card (global
+   box-sizing: border-box would otherwise subtract it from the content box). */
+body.render-mode #preview-container {
+  max-width: none;
 }
