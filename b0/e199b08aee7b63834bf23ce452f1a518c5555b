@@ -1,0 +1,19 @@
+src/client/app.ts
+  s_7a893e37772979::t_393bea348fbaf0 249-256,266-270,409-414,561,598
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b0e199b08aee7b63834bf23ce452f1a518c5555b",
+  "prompts": {},
+  "sessions": {
+    "s_7a893e37772979": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_036b10f7cffextHkj1IUW8WkDX",
+        "model": "claude-opus-5"
+      },
+      "human_author": "James Quick <jquick@cloudflare.com>"
+    }
+  }
+}
