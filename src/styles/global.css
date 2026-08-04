@@ -457,3 +457,10 @@ body.render-mode .main,
 body.render-mode .preview-pane {
   background: transparent;
 }
+
+/* #preview-container is the capture target and carries the shadow padding.
+   Drop the max-width so that padding can never squeeze the card (global
+   box-sizing: border-box would otherwise subtract it from the content box). */
+body.render-mode #preview-container {
+  max-width: none;
+}
