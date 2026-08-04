@@ -250,9 +250,14 @@ function buildHighlightStyle(resolved: ResolvedTheme) {
 const CARD_SHADOW = "0 20px 68px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05)";
 
 // Transparent room the capture target reserves so CARD_SHADOW isn't clipped.
-// A 68px blur extends ~34px past each edge, and the 20px y-offset pushes it
-// down: so ~14px is needed above, ~54px below, ~34px each side. Rounded up.
-const SHADOW_CAPTURE_PADDING = "20px 40px 60px";
+//
+// A Gaussian shadow has an unbounded tail, so some cut is unavoidable on a
+// transparent backdrop; the goal is to push the residual below perception.
+// Skia blurs box-shadows with sigma = blur/2 = 34px, and alpha falls to ~2% of
+// peak at 2 sigma (~70px) from the shadow rect. The rect is offset 20px down,
+// so measuring from the *card* edge: ~50px above, ~90px below, ~70px each side.
+// Verified empirically: leaves alpha <= 3/255 at the frame edge.
+const SHADOW_CAPTURE_PADDING = "50px 70px 90px";
 
 export async function initApp() {
   // --- Shiki setup ---
